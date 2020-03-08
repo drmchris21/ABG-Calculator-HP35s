@@ -1,0 +1,145 @@
+Line	Label	Command				comment
+A001		LBL A	
+A002		CF 10	
+A003		5	
+A004		STO I	
+A005		1	
+A006		STO (I)	
+A007		0	
+A008		STO I	
+A009		STO (I)	
+A010		INPUT P				Ph
+A011		INPUT C				CO2
+A012		INPUT H				HCO3
+A013		INPUT N				Cl-
+A014		INPUT L				Na+
+A015		“N-H-C > G”	
+A016		24	
+A017		RCL H	
+A018		X=Y?	
+A019		24,01	
+A020		STO H	
+A021		GTO B001	
+A022		GTO report	
+A023		push	0	
+A024		STO I	
+A025		RCL (I)	
+A026		1	
+A027		+	
+A028		STO (I)	
+A029		STO J	
+A030		REGZ	
+A031		STO (J)	
+A032		RTN	
+A033		report	0	
+A034		STO I	
+A035		1	
+A036		RCL (I)	
+A037		X<Y?	
+A038		GTO end	
+A039		4	
+A040		X<Y?	
+A041		GTO end	
+A042		RDN	
+A043		1000	
+A044		/	
+A045		1	
+A046		+	
+A047		STO A	
+A048		SF 10	
+A049	loop	RCL A	
+A050		INTG	
+A051		STO I	
+A052		RCL (I)	
+A053		0	
+A054		X=Y?	
+A055		“NORMAL”			0=Normal
+A056		1	
+A057		+	
+A058		X=Y?	
+A059		“CMP M AC”			1=Compensated Metabolic Acidosis
+A060		1	
+A061		+	
+A062		X=Y?	
+A063		“U M AC”			2=Uncompensated Metabolic Acidosis
+A064		1	
+A065		+	
+A066		X=Y?	
+A067		“M AC+R AL”			3=Metabolic Acidosis and Respiratory Alcalosis
+A068		1	
+A069		+	
+A070		X=Y?	
+A071		“A R AC+C R AC”			4=Acute Respiratory Acidosis and Chronic Respiratory Acidosis
+A072		1	
+A073		+	
+A074		X=Y?	
+A075		“U A R AC”			5=Uncompensated Acute Respiratory Acidosis
+A076		1	
+A077		+	
+A078		X=Y?	
+A079		“CMP C R AC”			6=Compensated Chronic Respiratory Acidosis
+A080		1	
+A081		+	
+A082		X=Y?	
+A083		“M AC W AGAP”			7=Metaboloc Acidosis with Anion Gap
+A084		1	
+A085		+	
+A086		X=Y?	
+A087		“M AC W AGAP+AC WO AGAP”	8=Metabolic Acidosis with Anion Gap + Acidosis without Anion Gap
+A088		1	
+A089		+	
+A090		X=Y?	
+A091		“M AC W AGAP+M AC”		9=Metabolic Acidosis with Anion Gap + Metabolic Acidosis
+A092		1	
+A093		+	
+A094		X=Y?	
+A095		“CMP M AL”			10=Compensated Metabolic Acidosis
+A096		1	
+A097		+	
+A098		X=Y?	
+A099		“M AC+R AC”			11=Metabolic Acidosis + Respiratory Acidosis
+A100		1	
+A101		+	
+A102		X=Y?	
+A103		“M AC+R AL”			12=Metabolic Alcalosis + Respiratory Alcalosis
+A104		1	
+A105		+	
+A106		X=Y?	
+A107		“P CMP R AL”			13=Partial Compensated Respiratory Alcalosis
+A108		1	
+A109		+	
+A110		X=Y?	
+A111		“CMP C R AL”			14=Compensated Chronic Respiratory Alcalosis
+A112		1	
+A113		+	
+A114		X=Y?	
+A115		“U A R AL”			15=Uncompensated Acute Respiratory Alcalosis
+A116		1	
+A117		+	
+A118		X=Y?	
+A119		“P CMP R AC”			16=Partially Cmpensated Respiratory Acidosis
+A120		1	
+A121		+	
+A122		X=Y?	
+A123		“P CMP M AC”			17=Partially Compensated Metabolic Acidosis
+A124		1	
+A125		+	
+A126		X=Y?	
+A127		“P CMP M AL”			18=Partially Compensated Metabolic Alcalosis
+A128		1	
+A129		+	
+A130		X=Y?	
+A131		“U M AL”			19=Uncompensated Metabolic Alcalosis
+A132		1	
+A133		+	
+A134		X=Y?	
+A135		“CMP R AC OR CMP M AL OR NORMAL”	20=Normal OR Compensated Respiratory Acidosis OR Compensated Metabolic Alcalosis
+A136		1	
+A137		+	
+A138		X=Y?	
+A139		“CMP R AL OR CMP M AC OR NORMAL”	21=Normal OR Compensated Respiratory Alcalosis OR Compensated Metabolic Acidosis
+A140		ISG A	
+A141		GTO loop	
+A142	end	CF 10	
+A143		CLSTK	
+A144		RTN
