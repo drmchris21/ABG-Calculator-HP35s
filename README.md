@@ -3,8 +3,6 @@ Acid/Base disorder calculator based on Arterial Blood Gas Analyser for the HP 35
 
 Editing instructions
 
-There are 3 tab separated files for every program label A, B and C.
-
 Configure your editor to display 8 spaces per tab.
 
 The first column is the line number ex. A015 (always a capital letter and 3 digits).
@@ -68,5 +66,5 @@ In Variable G the program stores the Anion Gap (N-H-L)
 To run the program turn your HP35s to RPN mode ent type [XEQ] A [ENTER]
 
 
-The Program uses 2 algorithms, the first in label B is a decision tree and the second in label C is based on formulas.
+The Program uses 2 algorithms, the first in PART2 is a decision tree and the second in PART3 is based on formulas.
 It can produce 1 up to 3 answers, the first is from the first algorithm, the second from the second, and a third one in case of metabolic acidosis with anion gap.
