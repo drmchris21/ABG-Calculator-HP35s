@@ -1,316 +1,316 @@
-Line Label         Command                            comment
-
-A001 PART1         LBL A
-A002               CF 10
-A003               5                                  clear result stack
-A004               STO I
-A005               1
-A006               STO (I)
-A007               0
-A008               STO I
-A009               STO (I)
-A010               INPUT P                            Ph
-A011               INPUT C                            CO2
-A012               INPUT H                            HCO3
-A013               INPUT N                            Cl-
-A014               INPUT L                            Na+
-A015               “N-H-C > G”
-A016               24
-A017               RCL H
-A018               X=Y?
-A019               24,01
-A020               STO H
-A021               GTO PART2
-A022               GTO report
-A023 push          0
-A024               STO I
-A025               1
-A026               STO +(I)
-A027               RCL (I)
-A028               STO J
-A029               REGT
-A030               STO (J)
-A031               RTN
-A032 report        0
-A033               STO I
-A034               1
-A035               RCL (I)
-A036               X<Y?
-A037               GTO end
-A038               4
-A039               X<Y?
-A040               GTO end
-A041               RDN
-A042               1000
-A043               /
-A044               1
-A045               +
-A046               STO A
-A047               SF 10
-A048 loop          RCL A
-A049               INTG
-A050               STO I
-A051               RCL (I)
-A052               0
-A053               X=Y?
-A054               “NORMAL”                           0=Normal
-A055               1
-A056               +
-A057               X=Y?
-A058               “CMP M AC”                         1=Compensated Metabolic Acidosis
-A059               1
-A060               +
-A061               X=Y?
-A062               “U M AC”                           2=Uncompensated Metabolic Acidosis
-A063               1
-A064               +
-A065               X=Y?
-A066               “M AC+R AL”                        3=Metabolic Acidosis and Respiratory Alcalosis
-A067               1
-A068               +
-A069               X=Y?
-A070               “A R AC+C R AC”                    4=Acute Respiratory Acidosis and Chronic Respiratory Acidosis
-A071               1
-A072               +
-A073               X=Y?
-A074               “U A R AC”                         5=Uncompensated Acute Respiratory Acidosis
-A075               1
-A076               +
-A077               X=Y?
-A078               “CMP C R AC”                       6=Compensated Chronic Respiratory Acidosis
-A079               1
-A080               +
-A081               X=Y?
-A082               “M AC W AGAP”                      7=Metaboloc Acidosis with Anion Gap
-A083               1
-A084               +
-A085               X=Y?
-A086               “M AC W AGAP+AC WO AGAP”           8=Metabolic Acidosis with Anion Gap + Acidosis without Anion Gap
-A087               1
-A088               +
-A089               X=Y?
-A090               “M AC W AGAP+M AC”                 9=Metabolic Acidosis with Anion Gap + Metabolic Acidosis
-A091               1
-A092               +
-A093               X=Y?
-A094               “CMP M AL”                         10=Compensated Metabolic Acidosis
-A095               1
-A096               +
-A097               X=Y?
-A098               “M AC+R AC”                        11=Metabolic Acidosis + Respiratory Acidosis
-A099               1
-A100               +
-A101               X=Y?
-A102               “M AC+R AL”                        12=Metabolic Alcalosis + Respiratory Alcalosis
-A103               1
-A104               +
-A105               X=Y?
-A106               “P CMP R AL”                       13=Partial Compensated Respiratory Alcalosis
-A107               1
-A108               +
-A109               X=Y?
-A110               “CMP C R AL”                       14=Compensated Chronic Respiratory Alcalosis
-A111               1
-A112               +
-A113               X=Y?
-A114               “U A R AL”                         15=Uncompensated Acute Respiratory Alcalosis
-A115               1
-A116               +
-A117               X=Y?
-A118               “P CMP R AC”                       16=Partially Cmpensated Respiratory Acidosis
-A119               1
-A120               +
-A121               X=Y?
-A122               “P CMP M AC”                       17=Partially Compensated Metabolic Acidosis
-A123               1
-A124               +
-A125               X=Y?
-A126               “P CMP M AL”                       18=Partially Compensated Metabolic Alcalosis
-A127               1
-A128               +
-A129               X=Y?
-A130               “U M AL”                           19=Uncompensated Metabolic Alcalosis
-A131               1
-A132               +
-A133               X=Y?
-A134               “CMP R AC OR CMP M AL OR NORMAL”   20=Normal OR Compensated Respiratory Acidosis OR Compensated Metabolic Alca
-A135               1
-A136               +
-A137               X=Y?
-A138               “CMP R AL OR CMP M AC OR NORMAL”   21=Normal OR Compensated Respiratory Alcalosis OR Compensated Metabolic Aci
-A139               ISG A
-A140               GTO loop
-A141 end           CF 10
-A142               CLSTK
-A143               RTN
-A144 PART2         7,35
-A145               RCL P
-A146 t1            X<=Y?
-A147               GTO acidosis_t5
-A148               7,45
-A149 t2            X<Y?
-A150               GTO alcalosis_t9
-A151 t3            26
-A152               RCL H
-A153               X>Y?
-A154               GTO normal1
-A155 t4            22
-A156               X>=Y?
-A157               GTO normal2
-A158 normal3       0
-A159               XEQ push
-A160               RTN
-A161 normal1       20
-A162               XEQ push
-A163               RTN
-A164 normal2       21
-A165               XEQ push
-A166               GTO end
-A167 acidosis_t5   26
-A168               RCL H
-A169               X>Y?
-A170               GTO acid1
-A171 t6            22
-A172               X>=Y?
-A173               GTO t7
-A174 acid2         5
-A175               XEQ push
-A176               GTO A_resacidosis
-A177 t7            60
-A178               RCL C
-A179               X>Y?
-A180               GTO acid3
-A181 t8            47
-A182               X>=Y?
-A183               GTO acid4
-A184 acid5         2
-A185               XEQ push
-A186               GTO A_metacidosis
-A187 acid3         11
-A188               XEQ push
-A189               GTO A_resacidosis
-A190 acid1         16
-A191               XEQ push
-A192               GTO A_resacidosis
-A193 acid4         17
-A194               XEQ push
-A195               GTO A_metacidosis
-A196 alcalosis_t9  26
-A197               RCL H
-A198               X>Y?
-A199               GTO t11
-A200 t10           22
-A201               X>=Y?
-A202               GTO alc1
-A203 alc2          15
-A204               XEQ push
-A205               GTO A_resalcalosis
-A206 alc1          13
-A207               XEQ push
-A208               GTO A_resalcalosis
-A209 t11           60
-A210               RCL P
-A211               X>Y?
-A212               GTO alc3
-A213               47
-A214 t12           X>=Y?
-A215               GTO alc4
-A216 alc5          19
-A217               XEQ push
-A218               GTO A_metalcalosis
-A219 alc4          3
-A220               XEQ push
-A221               GTO A_resalcalosis
-A222 alc3          18
-A223               XEQ push
-A224               GTO A_metalcalosis
-A225 PART3         40
-A226               RCL C
-A227               X=Y?
-A228               40,01
-A229               STO C
-A230 A_resacidosis 0,8                                respiratory acidosis…
-A231               “(ALOG(9-P)-ALOG(1,6))/(C-40)”
-A232               X>Y?                               if acute respiratory acidosis over chronic respiratory acidosis
-A233               GTO aracid+cracid                  goto aracid+cracid
-A234               0,3
-A235               X<>Y
-A236               X<Y?                               if chronic respiratory acidosis with compensation
-A237               GTO cracid+comp                    goto cracid+comp
-A238               5                                  Else Acute respiratory acidosis without compensation
-A239               XEQ push
-A240               RTN
-A241 aracid+cracid 4
-A242               XEQ push
-A243               RTN
-A244 cracid+comp   6
-A245               XEQ push
-A246               RTN
-A247 A_metacidosis “1,5*H+8-C”
-A248               -0,5
-A249               X>Y?
-A250               GTO macid-comp                     goto macid-comp
-A251               +/-
-A252               X<Y?
-A253               GTO macid+ralc                     goto macid+ralc
-A254               1                                  Else Metabolic acidosis with good compensation
-A255               XEQ push
-A256               GTO agap
-A257 macid-comp    2
-A258               XEQ push
-A259               GTO agap
-A260 macid+ralc    12
-A261               XEQ push
-A262 agap          16
-A263               RCL G
-A264               X<Y?
-A265               RTN
-A266               “(G-12)/(24-H)”
-A267               1
-A268               X>=Y?
-A269               GTO agap1                          goto agap1
-A270               RDN
-A271               2
-A272               X<=Y?
-A273               GTO agap2                          goto agap2
-A274               7
-A275               XEQ push
-A276               RTN
-A277 agap1         8
-A278               XEQ push
-A279               RTN
-A280 agap2         9
-A281               XEQ push
-A282               RTN
-A283 A_resalcalosis0,0017                             Respiratory Alcalosis
-A284               “(P-7,4)/(40-C)”
-A285               X<=Y?                              if chronic respiratory alcalosis with compensation
-A286               GTO cresalcalosis                  goto cresalcalosis
-A287               0,008
-A288               X<Y?                               if acute respiratory alcalosis without compensation
-A289               GTO aresalc-comp                   goto aresalc-comp
-A290               13                                 Else Respiratory Alcalosis with partial compensation
-A291               XEQ push
-A292               RTN
-A293 cresalcalosis 14
-A294               XEQ push
-A295               RTN
-A296 aresalc-comp  15
-A297               XEQ push
-A298               RTN
-A299 A_metalcalosis-5
-A300               “0,7*H+21-C”
-A301               X<Y?                               if metabolic alcalosis with respiratory acidosis
-A302               GTO malc+racid                     goto malc+racid
-A303               5
-A304               X<=Y?                              if metabolic alcalosis with respiratory alcalosis
-A305               GTO malc+ralc                      goto malc+ralc
-A306               10                                 Else Metabolic Alcalosis with compensation
-A307               XEQ push
-A308               RTN
-A309 malc+racid    11
-A310               XEQ push
-A311               RTN
-A312 malc+ralc     12
-A313               XEQ push
-A314               RTN
+Line	Label	        Code	                Comment
+A001	PART1	        LBL A	
+A002	        	CF 10	
+A003		        5	                clear result stack
+A004    		STO I	
+A005	        	1	
+A006		        STO (I)	
+A007    		0	
+A008	        	STO I	
+A009		        STO (I)	
+A010    		INPUT P	Ph
+A011	        	INPUT C	CO2
+A012		        INPUT H	HCO3
+A013    		INPUT N	Na+
+A014	        	INPUT L	Cl-
+A015		        INPUT A	Albumin
+A016    		“N-H-C+2,5*(4,5-A) STO G”       Anion gap with correction based on Albumine
+A017	        	24	
+A018		        RCL H	
+A019    		X=Y?	
+A020	        	24,01	
+A021		        STO H	
+A022    		GTO PART2	
+A023	        	GTO report	
+A024	push	        0	
+A025    		STO I	
+A026	        	1	
+A027		        STO +(I)	
+A028    		RCL (I)	
+A029	        	STO J	
+A030		        REGT	
+A031    		STO (J)	
+A032	        	RTN	
+A033	report	        0	
+A034    		STO I	
+A035	        	1	
+A036		        RCL (I)	
+A037		        X<Y?	
+A038		        GTO end	
+A039    		4	
+A040	        	X<Y?	
+A041		        GTO end	
+A042    		RDN	
+A043	        	1000	
+A044		        /	
+A045    		1	
+A046	        	+	
+A047		        STO B	
+A048		        SF 10	
+A049	loop	        RCL B	
+A050    		INTG	
+A051	        	STO I	
+A052		        RCL (I)	
+A053    		0	
+A054	        	X=Y?	
+A055		        “NORMAL”	        0=Normal
+A056    		1	
+A057	        	+	
+A058		        X=Y?	
+A059    		“CMP M AC”	        1=Compensated Metabolic Acidosis
+A060	        	1	
+A061		        +	
+A062    		X=Y?	
+A063	        	“U M AC”	        2=Uncompensated Metabolic Acidosis
+A064		        1	
+A065    		+	
+A066	        	X=Y?	
+A067		        “M AC+R AL”     	3=Metabolic Acidosis and Respiratory Alcalosis
+A068    		1	
+A069	        	+	
+A070		        X=Y?	
+A071    		“A R AC+C R AC”	        4=Acute Respiratory Acidosis and Chronic Respiratory Acidosis
+A072	        	1	
+A073		        +	
+A074    		X=Y?	
+A075	        	“U A R AC”	        5=Uncompensated Acute Respiratory Acidosis
+A076		        1	
+A077    		+	
+A078	        	X=Y?	
+A079		        “CMP C R AC”	        6=Compensated Chronic Respiratory Acidosis
+A080    		1	
+A081	        	+	
+A082		        X=Y?	
+A083    		“M AC W AGAP”	        7=Metaboloc Acidosis with Anion Gap
+A084	        	1	
+A085		        +	
+A086    		X=Y?	
+A087	        	“M AC W AGAP+AC WO AGAP”	8=Metabolic Acidosis with Anion Gap + Acidosis without Anion
+A088		        1	
+A089    		+	
+A090	        	X=Y?	
+A091		        “M AC W AGAP+M AC”	9=Metabolic Acidosis with Anion Gap + Metabolic Acidosis
+A092    		1	
+A093	        	+	
+A094		        X=Y?	
+A095    		“CMP M AL”      	10=Compensated Metabolic Acidosis
+A096	        	1	
+A097		        +	
+A098    		X=Y?	
+A099    		“M AC+R AC”	        11=Metabolic Acidosis + Respiratory Acidosis
+A100	        	1	
+A101		        +	
+A102    		X=Y?	
+A103	        	“M AC+R AL”	        12=Metabolic Alcalosis + Respiratory Alcalosis
+A104		        1	
+A105    		+	
+A106	        	X=Y?	
+A107		        “P CMP R AL”    	13=Partial Compensated Respiratory Alcalosis
+A108    		1	
+A109	        	+	
+A110		        X=Y?	
+A111    		“CMP C R AL”	        14=Compensated Chronic Respiratory Alcalosis
+A112	        	1	
+A113		        +	
+A114    		X=Y?	
+A115	        	“U A R AL”      	15=Uncompensated Acute Respiratory Alcalosis
+A116		        1	
+A117    		+	
+A118	        	X=Y?	
+A119		        “P CMP R AC”	        16=Partially Cmpensated Respiratory Acidosis
+A120    		1	
+A121	        	+	
+A122		        X=Y?	
+A123    		“P CMP M AC”    	17=Partially Compensated Metabolic Acidosis
+A124	        	1	
+A125		        +	
+A126    		X=Y?	
+A127	        	“P CMP M AL”    	18=Partially Compensated Metabolic Alcalosis
+A128		        1	
+A129    		+	
+A130	        	X=Y?	
+A131		        “U M AL”	        19=Uncompensated Metabolic Alcalosis
+A132    		1	
+A133	        	+	
+A134		        X=Y?	
+A135    		“CMP R AC OR CMP M AL OR NORMAL”	20=Normal OR Compensated Respiratory Acidosis OR Compensated
+A136	        	1	
+A137		        +	
+A138    		X=Y?	
+A139	        	“CMP R AL OR CMP M AC OR NORMAL”	21=Normal OR Compensated Respiratory Alcalosis OR Compensated
+A140		        ISG B	
+A141    		GTO loop	
+A142	end	        CF 10	
+A143		        CLSTK	
+A144		        RTN	
+A145	PART2	        7,35	
+A146		        RCL P	
+A147	t1	        X<=Y?	
+A148    		GTO acidosis_t5	
+A149	        	7,45	
+A150	t2	        X<Y?	
+A151    		GTO alcalosis_t9	
+A152	t3      	26	
+A153		        RCL H	
+A154    		X>Y?	
+A155	        	GTO normal1	
+A156	t4	        22	
+A157    		X>=Y?	
+A158	        	GTO normal2	
+A159	normal3	        0	
+A160    		XEQ push	
+A161	        	RTN	
+A162	normal1	        20	
+A163    		XEQ push	
+A164	        	RTN	
+A165	normal2	        21	
+A166    		XEQ push	
+A167	        	GTO end	
+A168	acidosis_t5	26	
+A169		        RCL H	
+A170	        	X>Y?	
+A171		        GTO acid1	
+A172	t6	        22	
+A173		        X>=Y?	
+A174		        GTO t7	
+A175	acid2	        5	
+A176		        XEQ push	
+A177		        GTO A_resacidosis	
+A178	t7      	60	
+A179		        RCL C	
+A180    		X>Y?	
+A181	        	GTO acid3	
+A182	t8	        47	
+A183    		X>=Y?	
+A184	        	GTO acid4	
+A185	acid5	        2	
+A186    		XEQ push	
+A187	        	GTO A_metacidosis	
+A188	acid3	        11	
+A189    		XEQ push	
+A190	        	GTO A_resacidosis	
+A191	acid1	        16	
+A192    		XEQ push	
+A193	        	GTO A_resacidosis	
+A194	acid4	        17	
+A195    		XEQ push	
+A196	        	GTO A_metacidosis	
+A197	alcalosis_t9	26	
+A198    		RCL H	
+A199	        	X>Y?	
+A200		        GTO t11	
+A201	t10     	22	
+A202		        X>=Y?	
+A203		        GTO alc1	
+A204	alc2	        15	
+A205    		XEQ push	
+A206	        	GTO A_resalcalosis	
+A207	alc1	        13	
+A208    		XEQ push	
+A209	        	GTO A_resalcalosis	
+A210	t11	        60	
+A211    		RCL P	
+A212	        	X>Y?	
+A213		        GTO alc3	
+A214		        47	
+A215	t12	        X>=Y?	
+A216    		GTO alc4	
+A217	alc5    	19	
+A218		        XEQ push	
+A219    		GTO A_metalcalosis	
+A220	alc4	        3	
+A221    		XEQ push	
+A222	        	GTO A_resalcalosis	
+A223	alc3	        18	
+A224    		XEQ push	
+A225	        	GTO A_metalcalosis	
+A226	PART3	        40	
+A227    		RCL C	
+A228	        	X=Y?	
+A229		        40,01	
+A230    		STO C	
+A231	A_resacidosis	0,8	                        respiratory acidosis…
+A232		        “(ALOG(9-P)-ALOG(1,6))/(C-40)”	
+A233    		X>Y?	                        if acute respiratory acidosis over chronic respiratory
+A234	        	GTO aracid+cracid	        goto aracid+cracid
+A235		        0,3	
+A236    		X<>Y	
+A237	        	X<Y?	                        if chronic respiratory acidosis with compensation
+A238		        GTO cracid+comp	                goto cracid+comp
+A239    		5	                        Else Acute respiratory acidosis without compensation
+A240	        	XEQ push	
+A241		        RTN	
+A242	aracid+cracid	4	
+A243    		XEQ push	
+A244	        	RTN	
+A245	cracid+comp	6	
+A246    		XEQ push	
+A247	        	RTN	
+A248	A_metacidosis	“1,5*H+8-C”	
+A249    		-0,5	
+A250	        	X>Y?	
+A251		        GTO macid-comp	                goto macid-comp
+A252    		+/-	
+A253	        	X<Y?	
+A254		        GTO macid+ralc	                goto macid+ralc
+A255    		1	                        Else Metabolic acidosis with good compensation
+A256	        	XEQ push	
+A257		        GTO agap	
+A258	macid-comp	2	
+A259    		XEQ push	
+A260	        	GTO agap	
+A261	macid+ralc	12	
+A262	        	XEQ push	
+A263	agap	        16	
+A264    		RCL G	
+A265	        	X<Y?	
+A266		        RTN	
+A267    		“(G-12)/(24-H)”	
+A268	        	1	
+A269		        X>=Y?	
+A270    		GTO agap1	                goto agap1
+A271	        	RDN	
+A272		        2	
+A273    		X<=Y?	
+A274	        	GTO agap2	                goto agap2
+A275		        7	
+A276    		XEQ push	
+A277	        	RTN	
+A278	agap1	        8	
+A279    		XEQ push	
+A280	        	RTN	
+A281	agap2	        9	
+A282	        	XEQ push	
+A283		        RTN	
+A284	A_resalcalosis	0,0017	                        Respiratory Alcalosis
+A285    		“(P-7,4)/(40-C)”	
+A286	        	X<=Y?	                        if chronic respiratory alcalosis with compensation
+A287		        GTO cresalcalosis	        goto cresalcalosis
+A288    		0,008	
+A289	        	X<Y?	                        if acute respiratory alcalosis without compensation
+A290		        GTO aresalc-comp	        goto aresalc-comp
+A291    		13	                        Else Respiratory Alcalosis with partial compensation
+A292	        	XEQ push	
+A293		        RTN	
+A294	cresalcalosis	14	
+A295    		XEQ push	
+A296	        	RTN	
+A297	aresalc-comp	15	
+A298    		XEQ push	
+A299	        	RTN	
+A300	A_metalcalosis	-5	
+A301    		“0,7*H+21-C”	
+A302	        	X<Y?	                        if metabolic alcalosis with respiratory acidosis
+A303		        GTO malc+racid	                goto malc+racid
+A304    		5	
+A305	        	X<=Y?	                        if metabolic alcalosis with respiratory alcalosis
+A306		        GTO malc+ralc	                goto malc+ralc
+A307    		10	                        Else Metabolic Alcalosis with compensation
+A308	        	XEQ push	
+A309		        RTN	
+A310	malc+racid	11	
+A311	        	XEQ push	
+A312		        RTN	
+A313	malc+ralc	12	
+A314    		XEQ push	
+A315	        	RTN	
