@@ -14,7 +14,7 @@ A012		        INPUT H	HCO3
 A013    		INPUT N	Na+
 A014	        	INPUT L	Cl-
 A015		        INPUT A	Albumin
-A016    		“N-H-C+2,5*(4,5-(A+ABS(0-A))/2) STO G”       Anion gap with correction based on Albumine
+A016    		“N-H-L+2,5*(4,5-(A+ABS(0-A))/2) STO G”       Anion gap with correction based on Albumine
 A017	        	24	
 A018		        RCL H	
 A019    		X=Y?	
